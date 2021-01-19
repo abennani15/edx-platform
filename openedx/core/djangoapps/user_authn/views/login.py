@@ -39,7 +39,7 @@ from openedx.core.djangoapps.user_authn.config.waffle import ENABLE_LOGIN_USING_
 from openedx.core.djangolib.markup import HTML, Text
 from openedx.core.lib.api.view_utils import require_post_params
 from student.helpers import get_next_url_for_login_page
-from student.models import LoginFailures, AllowedAuthUser, UserProfile
+from student.models import LoginFailures, AllowedAuthUser, UserProfile, Registration
 from student.views import compose_and_send_activation_email
 from third_party_auth import pipeline, provider
 import third_party_auth
