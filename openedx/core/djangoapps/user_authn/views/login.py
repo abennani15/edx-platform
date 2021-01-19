@@ -421,7 +421,7 @@ def login_user(request):
             if len(check_reg) > 0:
                 user = authenticate(username=username, password=password, request=request)
             else:
-                ldap_user = authenticate(username=username, password=password, request=request)
+                ldap_user = authenticate(username=user.username, password=user.password, request=request)
                 if ldap_user is None:
                     AUDIT_LOG.warning("ldap user is none")
                     user = None
