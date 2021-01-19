@@ -416,6 +416,25 @@ def login_user(request):
         possibly_authenticated_user = user
 
         if not is_user_third_party_authenticated:
+            AUDIT_LOG.warning("LDAP Started")
+            check_reg = Registration.objects.filter(user=user)
+            if len(check_reg) > 0:
+                user = authenticate(username=username, password=password, request=request)
+            else:
+                ldap_user = authenticate(username=username, password=password, request=request)
+                if ldap_user is None:
+                    AUDIT_LOG.warning("ldap user is none")
+                    user = None
+                elif user is None:
+                    AUDIT_LOG.warning("setting ldap user")
+                    user = ldap_user
+                    profile = UserProfile(name=user)
+                    db_profile = UserProfile.objects.filter(name=user)
+                    if db_profile is not user :
+                        AUDIT_LOG.warning("save ldap user")
+                        profile.name = user.username
+                        profile.user_id = user.id
+                        profile.save()
             possibly_authenticated_user = _authenticate_first_party(request, user, third_party_auth_requested)
             if possibly_authenticated_user and password_policy_compliance.should_enforce_compliance_on_login():
                 # Important: This call must be made AFTER the user was successfully authenticated.
