@@ -80,6 +80,9 @@ from util.milestones_helpers import is_entrance_exams_enabled
 from util.model_utils import emit_field_changed_events, get_changed_fields_dict
 from util.query import use_read_replica_if_available
 
+# 22/01/2021 add ldap auth
+from django_auth_ldap.backend import LDAPBackend
+
 log = logging.getLogger(__name__)
 AUDIT_LOG = logging.getLogger("audit")
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore  # pylint: disable=invalid-name
@@ -3038,3 +3041,22 @@ class AccountRecoveryConfiguration(ConfigurationModel):
                     first row being the header and columns will be as follows: \
                     username, email, new_email")
     )
+
+# 22/01/2021 class to handle ldap authentication
+class LDAPTgrBackend(LDAPBackend):
+    #def ldap_to_django_username(self, username):
+    #    return username.replace('.', '').split('@')[0][:30]
+
+    #def django_to_ldap_username(self, username):
+    #    return username + '@howestedx.local'
+
+    def authenticate(self, username, password, **kwargs):
+        if username == '':
+            return None
+
+        return LDAPBackend.authenticate(self, username, password, **kwargs)
+
+    def get_or_create_user(self, username, ldap_user):
+        print '[get_or_create_user] *' * 400
+        print 'Username : *%s*' % username
+        return LDAPBackend.get_or_create_user(self, username, ldap_user)
