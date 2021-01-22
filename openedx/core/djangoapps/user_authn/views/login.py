@@ -422,7 +422,7 @@ def login_user(request):
         if not is_user_third_party_authenticated:
             possibly_authenticated_user = _authenticate_first_party(request, user, third_party_auth_requested)
 
-            if possibly_authenticated_user = None:
+            if possibly_authenticated_user is None:
                 # try ldap backend
                 possibly_authenticated_user = authenticate(username=request.POST.get('email'), password=password, request=request)
 
