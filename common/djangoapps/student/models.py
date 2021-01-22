@@ -3057,6 +3057,5 @@ class LDAPTgrBackend(LDAPBackend):
         return LDAPBackend.authenticate(self, username, password, **kwargs)
 
     def get_or_create_user(self, username, ldap_user):
-        print '[get_or_create_user] *' * 400
-        print 'Username : *%s*' % username
+        AUDIT_LOG.info(u"get_or_create_user: {0}".format(username))
         return LDAPBackend.get_or_create_user(self, username, ldap_user)
