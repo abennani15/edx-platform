@@ -424,7 +424,7 @@ def login_user(request):
 
             if possibly_authenticated_user is None:
                 # try ldap backend
-                possibly_authenticated_user = authenticate(username=request.POST.get('email'), password=password, request=request)
+                possibly_authenticated_user = authenticate(username=request.POST.get('email'), password=request.POST.get('password'), request=request)
 
             if possibly_authenticated_user and password_policy_compliance.should_enforce_compliance_on_login():
                 # Important: This call must be made AFTER the user was successfully authenticated.
