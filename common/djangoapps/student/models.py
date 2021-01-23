@@ -3051,9 +3051,11 @@ class LDAPTgrBackend(LDAPBackend):
     #    return username + '@howestedx.local'
 
     def authenticate(self, username, password, **kwargs):
+        AUDIT_LOG.info(u"ldap authenticate ( {0} )".format(username))
         if username == '':
+            AUDIT_LOG.info(u"ldap authenticate ( {0} ) is EMPTY".format(username))
             return None
-
+        AUDIT_LOG.info(u"ldap authenticate ( {0} ) is not empty".format(username))
         return LDAPBackend.authenticate(self, username, password, **kwargs)
 
     def get_or_create_user(self, username, ldap_user):
