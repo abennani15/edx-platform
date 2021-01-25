@@ -430,14 +430,14 @@ def login_user(request):
                 if possibly_authenticated_user is None:
                     AUDIT_LOG.info(u"login ldap : possibly_authenticated_user is still None ")
                 else:
-                    AUDIT_LOG.info(u"login ldap : possibly_authenticated_user is populated, is_active : {0} ".format(possibly_authenticated_user.is_active))
+                    AUDIT_LOG.info(u"login ldap : possibly_authenticated_user is populated")
 
             if possibly_authenticated_user and password_policy_compliance.should_enforce_compliance_on_login():
                 # Important: This call must be made AFTER the user was successfully authenticated.
                 _enforce_password_policy_compliance(request, possibly_authenticated_user)
 
         if possibly_authenticated_user is None or not possibly_authenticated_user.is_active:
-            AUDIT_LOG.info(u"login error : start handle failed auth | active status : {0}".format(possibly_authenticated_user.is_active))
+            AUDIT_LOG.info(u"login error : start handle failed auth")
             _handle_failed_authentication(user, possibly_authenticated_user)
 
         AUDIT_LOG.info(u"Start handle successfull auth")
