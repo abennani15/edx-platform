@@ -1015,10 +1015,14 @@ class CourseFields(object):
     )
     other_course_settings = Dict(
         display_name=_("Other Course Settings"),
+        #help=_(
+        #    "Any additional information about the course that the platform needs or that allows integration with "
+        #    "external systems such as CRM software. Enter a dictionary of values in JSON format, such as "
+        #    "{ \"my_custom_setting\": \"value\", \"other_setting\": \"value\" }"
+        #),
         help=_(
-            "Any additional information about the course that the platform needs or that allows integration with "
-            "external systems such as CRM software. Enter a dictionary of values in JSON format, such as "
-            "{ \"my_custom_setting\": \"value\", \"other_setting\": \"value\" }"
+            "Pour spécifier le sujet ainsi que la catégorie du cours, "
+            "insérer { \"subject\": \"MonSujet\", \"category\": \"MOOC Pour les débutants\"} "
         ),
         scope=Scope.settings
     )
